@@ -1,0 +1,57 @@
+{
+  "name": "setu",
+  "private": true,
+  "version": "0.1.1",
+  "description": "Setu — Electron + React + Vite + xterm.js scaffold (clean workspaces)",
+  "main": "packages/main/dist/main.js",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:*\"",
+    "dev:renderer": "npm --workspace packages/renderer run dev",
+    "dev:main": "npm --workspace packages/main run dev",
+    "dev:preload": "npm --workspace packages/preload run dev",
+    "build": "npm run build:all",
+    "build:all": "npm --workspace packages/preload run build && npm --workspace packages/main run build && npm --workspace packages/renderer run build",
+    "dist": "electron-builder -c",
+    "postinstall": "electron-builder install-app-deps",
+    "start": "wait-on http://localhost:5173 && electron ."
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^4.0.1",
+    "@types/node": "^20.14.10",
+    "concurrently": "^9.0.1",
+    "cross-env": "^7.0.3",
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3",
+    "typescript": "^5.5.4",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "productName": "Setu",
+    "appId": "com.example.setu",
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
+    },
+    "files": [
+      "packages/main/dist/**",
+      "packages/preload/dist/**",
+      "packages/renderer/dist/**",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "packages/main/dist/main.js"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}

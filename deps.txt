@@ -1,0 +1,3 @@
+# install these at repo root
+pnpm add -w execa chokidar fast-glob electron-store zod
+pnpm add -w -D @types/node
